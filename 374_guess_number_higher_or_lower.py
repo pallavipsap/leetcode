@@ -18,6 +18,7 @@ class Solution:
         h = n
 
         # send the index ( mid ) to the guess API
+        # here we definitely know correct number is present so we return when g==0
         while l <= h:
             mid = (l + h) // 2
             g = guess(mid)  # returns -1, 1, 0
