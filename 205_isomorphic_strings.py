@@ -2,7 +2,8 @@
 
 class Solution:
     def isIsomorphic(self, s: str, t: str) -> bool:
-
+        
+        #time complexity : O(N) where N is the length of s or t: considering we go ahead only if both are same
         if len(s) != len(t): return False
 
         '''
