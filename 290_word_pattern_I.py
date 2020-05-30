@@ -6,6 +6,7 @@ class Solution:
     def wordPattern(self, pattern: str, str: str) -> bool:
 
         # Time complexity : O(N)
+        # N is the length of pattern or list of str : considering we go ahead only if both are same
         dict = {}
         # print(type(str)) # a string
         # split the strings by space, this will convert str into list of str
