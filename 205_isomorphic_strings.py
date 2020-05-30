@@ -42,7 +42,7 @@ class Solution:
             # if key is present in dict
             # check if dict's value matches with current value "s"
             if s[i] in dict:
-                if dict[s[i]] != t[i]:  # values does not match the current
+                if dict[s[i]] != t[i]:  # values do not match the current
                     print(dict)
                     return False  # eg. t = "eggg" s = "addw" , last letter g (key) is already present but value does not match with w
 
