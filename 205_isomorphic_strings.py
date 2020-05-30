@@ -49,8 +49,7 @@ class Solution:
 
             # before entering new key, check if value exists
             else:
-                if t[
-                    i] in dict.values():  # if new key is not present in dict, but new value is already present, means value is linked to another key
+                if t[i] in dict.values():  # if new key is not present in dict, but new value is already present, means value is linked to another key
                     return False  # eg. t = "lat" s = "foo" gives false
 
                 else:  # key is not present, value is not present, link both as usual
