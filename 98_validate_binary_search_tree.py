@@ -1,6 +1,9 @@
+# Pallavi Sapale
 # June 16, 2020
+# to understand inorder
 # Yet to confirm why prev = None, and not root
 # Yet to try third approach ( inf )
+# why prev is None
 
 # Definition for a binary tree node.
 # class TreeNode:
@@ -10,26 +13,31 @@
 #         self.right = right
 class Solution:
     # global variable prev
-    prev = TreeNode()
-    prev = None
+    # use self.prev while using prev, this is not considered as a global variable
+    # prev local to this specific class
 
     def isValidBST(self, root: TreeNode) -> bool:
         # Method 2 : Recursive approach :
         # does not work in leetcode when prev is global
         # Time Complexity : O(n) == we visit all nodes exactly once
         # Space Complexity : O( height of tree) == O(n) worst case
+
+        # recursive does not work on leet code when prev used as global variable
+
+        self.prev = TreeNode()
+        self.prev = None
         return self.inOrder(root)
 
-    def inOrder(self, root):
+    def inOrder(self, root):  # added for recursion
 
         if root == None: return True
         if self.inOrder(root.left) == False:  # if left subtree is not BST
             return False
 
-        if prev != None and prev.val >= root.val:  # compare the values not trees
-            print(prev.val)
+        if self.prev != None and self.prev.val >= root.val:  # compare the values not trees
+            print(self.prev.val)
             return False
-        prev = root  # else we update prev as the root, and  ofcourse we change our root here at the bottom
+        self.prev = root  # else we update prev as the root, and  ofcourse we change our root here at the bottom
 
         return self.inOrder(root.right)  # explore right subtree if left subtree
 
@@ -59,7 +67,7 @@ class Solution:
 
         #if root == None: return True #.. This condition is taken care by while below
         while root!=None or len(stack)!=0:
-            while root!=None:
+            while root!=None: # keep going left until Null is hit
                 stack.append(root) # pending the pointer to the tree
                 root=root.left
             root = stack.pop()
