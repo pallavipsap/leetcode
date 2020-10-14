@@ -3,39 +3,77 @@
 
 class Solution:
     def search(self, nums: List[int], target: int) -> int:
+        '''
 
-        # one pass solution
-        # here we know atleast one side of the mid will always sorted
-        # look at the solution in the leet code and the one on scratch paper to understand
+        - remember to use mid + 1, mid - 1, else r and l will never cross each other
+        - ***when we divide the array, one half is sorted, other half is unsorted
+        - go to the sorted side of the array , check if target exists, if not go to unsorted side
+        - remember that any half can be unsorted hence we need to else ifs
 
-        start = 0
-        end = len(nums) - 1
+        '''
 
-        while start <= end:
-            mid = (start + end) // 2
+        # Method 2  :  One - pass
+        # Time : O(logn)
+        # Space : O(1)
+
+        if len(nums) == 0 or nums == None:
+            return - 1
+
+        l = 0
+        r = len(nums) - 1
+
+        while l <= r:
+
+            mid = l + (r - l) // 2
+            print(nums[l], nums[r], nums[mid])
 
             if nums[mid] == target:
+                print(mid)
                 return mid
-            # 1st half is sorted, 2nd half is unsorted
-            # print('1st half sorted')
-            elif nums[mid] >= nums[
-                start]:  # this part is sorted, mid is greater than start "1st half of array is sorted"
-                if target >= nums[start] and target <= nums[mid]:  # target is in 1st half
-                    end = mid - 1
+
+
+            # if left is sorted, check target on left
+            elif nums[l] <= nums[mid]:  # left is sorted
+                if target <= nums[mid] and target >= nums[l]:
+                    r = mid - 1  # move to left target is on left
                 else:
-                    start = mid + 1  # target is in 2nd half
+                    l = mid + 1  # move to right, target is on right
 
-
-            # 1st half is unsorted, 2nd half is sorted
-            # nums[mid]<nums[start] i.e 1st half is unsorted then, 2nd half is obviously sorted so we check for target in 2nd half
-            else:
-                print('2nd half sorted')
-                if target >= nums[mid] and target <= nums[end]:
-                    start = mid + 1  # target is in 2nd half
+            # if right is sorted, check target on right
+            elif nums[r] > nums[mid]:  # right is sorted
+                if target >= nums[mid] and target <= nums[r]:
+                    l = mid + 1  # move to right, target is on right
                 else:
-                    end = mid - 1  # target is in 1st half
+                    r = mid - 1  # move to left target is on left
 
-            print('start', start)
-            print('end', end)
+            # combine both conditions : this works too
+            '''
+            elif ((nums[l] <= nums[mid]) and ( target<=nums[mid] and target>=nums[l] ) ) or ((nums[r]>nums[mid]) and not (target>=nums[mid] and target<=nums[r] )): # add not condition
+                r = mid - 1 # target on left
+            else: 
+                l = mid + 1 # target on right
+
+            '''
+
+            # Here I am going to unsorted side, do not make this mistake
+            '''
+            [4,5,6,7,0,1,2] target 0
+            - going to sorted side is easier, because we just check target 0 betweej 4 and 7 else go to right
+            - if we go to unsorted side , we check if 0 is between 7 and 2, which it is, but it gives incorrect ans
+
+
+            elif nums[r]<=nums[mid]: # right is unsorted
+                if target <= nums[r]:
+                    l = mid # go to right
+                else:
+                    r = mid # go to left
+
+            elif nums[l]>nums[mid]: # left is unsorted
+                if target >= nums[l]:
+                    r = mid # go to left
+                else:
+                    l = mid
+
+            '''
 
         return -1

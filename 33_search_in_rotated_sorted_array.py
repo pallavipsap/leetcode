@@ -4,9 +4,14 @@
 class Solution:
     def search(self, nums: List[int], target: int) -> int:
 
-        # modified binaru search
-        # binary search only works when array is sorted
-        # find the point where array is rotated ( use binary search for this) Time: log N
+        '''
+        - modified binary search
+        - binary search only works when array is sorted
+        - pivot is on unsorted side
+        - find the point where array is rotated ( use binary search for this)
+        '''
+        # Time : O(log n), n is the length of array
+        # Space : O(1)
 
         if len(nums) == 0 or nums == None:
             return -1
@@ -16,15 +21,17 @@ class Solution:
         left = 0
         right = len(nums) - 1
 
+        # ****go to unsorted side to find pivot
         # usually when you right left<=right, you have to mention a condition where if left == right: pivot = left break
         while left < right:  # do not make a mistake where left <= right
-            mid = (left + right) // 2
+            mid = right + (right - left) // 2
             if nums[mid] > nums[
                 right]:  # [ 4 5 6 7 0 1 2] ;mid = 7,right = 2, weird when array is sorted, right element is smaller, search on right
                 left = mid + 1
             else:  # nums[mid] < nums[right] # [ 5 6 0 1 2 3 4] ; mid = 2, right = 4, thats good, but left is 5, so search on left
                 right = mid  # right = mid and not mid-1 because it is still possible this mid element is the smallest in the array, i.e 2 can be the smallest element in the array
 
+        # pivot found
         # pivot is on left or right , the point where right= left is the rotation point
         print(right)
         print(left)
@@ -40,6 +47,8 @@ class Solution:
 
         '''
         # if nums[right]==target: return 0
+
+        # now array divided into two sorted halves based on the start
         start = right  # or right i.e the pivot point i.e the smallest element
         left = 0
         right = len(nums) - 1
@@ -53,7 +62,7 @@ class Solution:
             left = start # search on left, make sure we do not choose start+1, because then we lose value at index start
 
         '''
-
+        # now check in which sorted half your target is present
         if target >= nums[start] and target <= nums[right]:
             left = start
         else:
@@ -63,6 +72,7 @@ class Solution:
         print(right)
 
         # considers [ 5 6 0] in above case
+        # now do normal binary search on the sorted part found above
         while left <= right:
             mid = (right + left) // 2
             if nums[mid] == target:
